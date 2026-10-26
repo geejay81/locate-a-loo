@@ -1,8 +1,8 @@
 import { useState } from "react";
-
 import { Button } from "@/components/ui/button";
 import { useGeolocation } from "@/hooks/useGeolocation";
 import { findNearbyToilets } from "@/services/overpass";
+import { ToiletCard } from "@/components/ToiletCard";
 import type { Toilet } from "@/types/toilet";
 
 const pageTitle = "Locate A Loo";
@@ -80,13 +80,14 @@ function App() {
       <p className="mt-4 font-semibold">
         Found {toilets.length} toilets
       </p>
-      <ul className="mt-2">
+      <div className="mt-6 space-y-4">
         {toilets.map((toilet) => (
-          <li key={toilet.id}>
-            {toilet.name} - Lat: {toilet.latitude}, Lon: {toilet.longitude}
-          </li>
+          <ToiletCard
+            key={toilet.id}
+            toilet={toilet}
+          />
         ))}
-      </ul>
+      </div>
     </div>
   );
 }

@@ -13,6 +13,8 @@ export async function findNearbyToilets(
 );
 out body;
 `;
+//   way["amenity"="toilets"](around:${radius},${latitude},${longitude});
+//   relation["amenity"="toilets"](around:${radius},${latitude},${longitude});
 
   const response = await fetch(
     "https://overpass-api.de/api/interpreter",

@@ -6,6 +6,7 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
+import { Button } from "./ui/button";
 
 interface ToiletCardProps {
   toilet: Toilet;
@@ -47,6 +48,16 @@ export function ToiletCard({
           {toilet.changingTable === "yes" && (
             <p>👶 Baby Changing</p>
           )}
+
+          <Button asChild>
+            <a
+                href={`https://www.google.com/maps/dir/?api=1&destination=${toilet.latitude},${toilet.longitude}`}
+                target="_blank"
+                rel="noopener noreferrer"
+            >
+                Directions
+            </a>
+          </Button>
         </div>
       </CardContent>
     </Card>

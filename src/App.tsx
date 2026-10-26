@@ -4,6 +4,7 @@ import { useGeolocation } from "@/hooks/useGeolocation";
 import { findNearbyToilets } from "@/services/overpass";
 import { ToiletCard } from "@/components/ToiletCard";
 import type { Toilet } from "@/types/toilet";
+import { ToiletMap } from "./components/ToiletMap";
 
 const pageTitle = "Locate A Loo";
 
@@ -80,14 +81,23 @@ function App() {
       <p className="mt-4 font-semibold">
         Found {toilets.length} toilets
       </p>
-      <div className="mt-6 space-y-4">
-        {toilets.map((toilet) => (
-          <ToiletCard
-            key={toilet.id}
-            toilet={toilet}
+      {coordinates && toilets.length > 0 && (
+        <div>
+          <ToiletMap
+            latitude={coordinates.latitude}
+            longitude={coordinates.longitude}
+            toilets={toilets}
           />
-        ))}
-      </div>
+          <div className="mt-6 space-y-4">
+            {toilets.map((toilet) => (
+              <ToiletCard
+                key={toilet.id}
+                toilet={toilet}
+              />
+            ))}
+          </div>
+        </div>
+      )}
     </div>
   );
 }

@@ -32,6 +32,10 @@ export function ToiletCard({
             Longitude: {toilet.longitude}
           </p>
 
+          <p>
+            {(toilet.distance ?? 0).toLocaleString()} metres away
+          </p>
+
           {toilet.wheelchair === "yes" && (
             <p>♿ Accessible</p>
           )}

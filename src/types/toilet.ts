@@ -6,4 +6,5 @@ export interface Toilet {
   wheelchair?: string;
   fee?: string;
   changingTable?: string;
+  distance?: number;
 }

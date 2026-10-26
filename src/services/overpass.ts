@@ -1,4 +1,5 @@
 import type { Toilet } from "@/types/toilet";
+import { getDistance } from "geolib";
 
 export async function findNearbyToilets(
   latitude: number,
@@ -32,5 +33,15 @@ out body;
     wheelchair: element.tags?.wheelchair,
     fee: element.tags?.fee,
     changingTable: element.tags?.changing_table,
+    distance: getDistance(
+        {
+            latitude,
+            longitude,
+        },
+        {
+            latitude: element.lat,
+            longitude: element.lon,
+        }
+    )
   }));
 }

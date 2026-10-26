@@ -1,5 +1,4 @@
 import type { Toilet } from "@/types/toilet";
-
 import {
   Card,
   CardContent,
@@ -7,6 +6,7 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { Button } from "./ui/button";
+import { formatDistance } from "@/lib/utils";
 
 interface ToiletCardProps {
   toilet: Toilet;
@@ -25,17 +25,12 @@ export function ToiletCard({
 
       <CardContent>
         <div className="space-y-1 text-sm">
-          <p>
-            Latitude: {toilet.latitude}
-          </p>
 
+        {toilet.distance && (
           <p>
-            Longitude: {toilet.longitude}
+            {formatDistance(toilet.distance!)} away
           </p>
-
-          <p>
-            {(toilet.distance ?? 0).toLocaleString()} metres away
-          </p>
+        )}
 
           {toilet.wheelchair === "yes" && (
             <p>♿ Accessible</p>

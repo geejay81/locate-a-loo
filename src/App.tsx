@@ -1,12 +1,13 @@
-import { useState } from "react";
-import { Button } from "@/components/ui/button";
+import { useMemo, useState } from "react";
 import { useGeolocation } from "@/hooks/useGeolocation";
 import { findNearbyToilets } from "@/services/overpass";
 import { ToiletCard } from "@/components/ToiletCard";
 import type { Toilet } from "@/types/toilet";
 import { ToiletMap } from "./components/ToiletMap";
+import { HeroSection } from "./components/HeroSection";
+import { Spinner } from "./components/ui/spinner";
 
-const pageTitle = "Locate A Loo";
+const pageTitle = "Locate a Loo";
 
 function App() {
   const { coordinates, loading, error, getLocation } = useGeolocation();
@@ -14,11 +15,14 @@ function App() {
   const [toilets, setToilets] = useState<Toilet[]>([]);
   const [searching, setSearching] = useState(false);
 
-  const handleFindToilets = async () => {
-    getLocation();
-  };
+  const resultCount = useMemo(() => {
+    return toilets.length;
+  }, [toilets]);
 
   const loadToilets = async () => {
+
+    getLocation();
+
     if (!coordinates) return;
 
     setSearching(true);
@@ -40,64 +44,43 @@ function App() {
   };
 
   return (
-    <div className="p-6">
-      <h1 className="mb-4 text-2xl font-bold">
-        {pageTitle}
-      </h1>
+    <div className="min-h-screen bg-background text-foreground">
+      <HeroSection
+        heading={pageTitle}
+        onFindToilets={loadToilets}
+        loading={loading || searching}
+      />
+      <div className="p-6 mx-auto max-w-4xl px-4 py-4 text-center">
 
-      <Button onClick={handleFindToilets} disabled={loading}>
-        Find My Location
-      </Button>
+        {searching && (
+          <Spinner className="mx-auto mt-8" />
+        )}
 
-      {coordinates && (
-        <>
-          <p className="mt-4">
-            Lat: {coordinates.latitude}
+        {error && (
+          <p className="mt-8 text-red-500">
+            {error}
           </p>
+        )}
 
-          <p>
-            Lon: {coordinates.longitude}
-          </p>
-
-          <Button
-            className="mt-4"
-            onClick={loadToilets}
-          >
-            Find Nearby Toilets
-          </Button>
-        </>
-      )}
-
-      {searching && (
-        <p className="mt-4">Searching...</p>
-      )}
-
-      {error && (
-        <p className="mt-4 text-red-500">
-          {error}
+        <p className="mt-8 font-semibold">
+          Found {resultCount} toilets
         </p>
-      )}
-
-      <p className="mt-4 font-semibold">
-        Found {toilets.length} toilets
-      </p>
-      {coordinates && toilets.length > 0 && (
-        <div>
-          <ToiletMap
-            latitude={coordinates.latitude}
-            longitude={coordinates.longitude}
-            toilets={toilets}
-          />
-          <div className="mt-6 space-y-4">
-            {toilets.map((toilet) => (
-              <ToiletCard
-                key={toilet.id}
-                toilet={toilet}
-              />
-            ))}
+        {coordinates && resultCount > 0 && (
+          <div>
+            <ToiletMap
+              latitude={coordinates.latitude}
+              longitude={coordinates.longitude}
+              toilets={toilets} />
+            <div className="mt-6 space-y-4">
+              {toilets.map((toilet) => (
+                <ToiletCard
+                  key={toilet.id}
+                  toilet={toilet} />
+              ))}
+            </div>
           </div>
-        </div>
-      )}
+        )}
+      </div>
     </div>
   );
 }

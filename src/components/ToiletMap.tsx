@@ -4,17 +4,8 @@ import { useMap } from "react-leaflet";
 import L from "leaflet";
 import type { Toilet } from "@/types/toilet";
 import { Button } from "./ui/button";
-
-const toiletIcon = L.divIcon({
-  html: "🚻",
-  className: "text-2xl",
-});
-
-const userIcon = new L.DivIcon({
-  html: "📍",
-  className: "text-2xl",
-  iconSize: [32, 32],
-});
+import { formatDistance } from "@/lib/utils";
+import { toiletIcon, userIcon } from "@/lib/map-icons";
 
 interface ToiletMapProps {
     latitude: number;
@@ -35,6 +26,7 @@ export function ToiletMap({
                 height: "400px",
                 width: "100%",
             }}
+            className="rounded-lg border mt-8"
         >
             <TileLayer
                 attribution="&copy; OpenStreetMap contributors"
@@ -55,15 +47,27 @@ export function ToiletMap({
                     icon={toiletIcon}
                 >
                     <Popup>
-                        <div className="space-y-2">
+                        <div className="space-y-6">
                             <p className="font-semibold">
                                 {toilet.name}
                             </p>
 
                             {!!toilet.distance && (
                                 <p>
-                                    {(toilet.distance / 1000).toFixed(1)} km away
+                                {formatDistance(toilet.distance!)} away
                                 </p>
+                            )}
+
+                            {toilet.wheelchair === "yes" && (
+                                <p>♿ Accessible</p>
+                            )}
+
+                            {toilet.fee === "no" && (
+                                <p>🆓 Free</p>
+                            )}
+
+                            {toilet.changingTable === "yes" && (
+                                <p>👶 Baby Changing</p>
                             )}
 
                             <Button asChild size="sm">

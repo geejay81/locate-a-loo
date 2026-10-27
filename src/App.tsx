@@ -21,19 +21,21 @@ function App() {
 
   const loadToilets = async () => {
 
-    getLocation();
+    const location = await getLocation();
 
-    if (!coordinates) {
+    if (!location) {
       console.log("Coordinates not available yet. Waiting for geolocation...");
       return;
     }
+
+    const { latitude, longitude } = location;
 
     setSearching(true);
 
     try {
       const results = await findNearbyToilets(
-        coordinates.latitude,
-        coordinates.longitude
+        latitude,
+        longitude
       );
 
       const sortedResults = results.sort((a, b) => {

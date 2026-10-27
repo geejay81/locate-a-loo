@@ -3,6 +3,8 @@ export interface Toilet {
   name: string;
   latitude: number;
   longitude: number;
+  building?: string;
+  openingHours?: string;
   wheelchair?: string;
   fee?: string;
   changingTable?: string;

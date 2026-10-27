@@ -6,6 +6,7 @@ import type { Toilet } from "@/types/toilet";
 import { Button } from "./ui/button";
 import { formatDistance } from "@/lib/utils";
 import { toiletIcon, userIcon } from "@/lib/map-icons";
+import TagsList from "./TagsList";
 
 interface ToiletMapProps {
     latitude: number;
@@ -58,26 +59,14 @@ export function ToiletMap({
                                 </p>
                             )}
 
-                            {toilet.wheelchair === "yes" && (
-                                <p>♿ Accessible</p>
-                            )}
+                            <TagsList toilet={toilet} />
 
-                            {toilet.fee === "no" && (
-                                <p>🆓 Free</p>
-                            )}
-
-                            {toilet.changingTable === "yes" && (
-                                <p>👶 Baby Changing</p>
-                            )}
-
-                            <Button asChild size="sm">
+                            <Button asChild>
                                 <a
                                     href={`https://www.google.com/maps/dir/?api=1&destination=${toilet.latitude},${toilet.longitude}`}
                                     target="_blank"
                                     rel="noopener noreferrer"
-                                >
-                                    Directions
-                                </a>
+                                >Directions</a>
                             </Button>
                         </div>
                     </Popup>

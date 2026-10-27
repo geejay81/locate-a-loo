@@ -62,11 +62,11 @@ function App() {
           </p>
         )}
 
-        <p className="mt-8 font-semibold">
-          Found {resultCount} toilets
-        </p>
         {coordinates && resultCount > 0 && (
           <div>
+            <p className="mt-8 font-semibold">
+              Found {resultCount} toilets
+            </p>
             <ToiletMap
               latitude={coordinates.latitude}
               longitude={coordinates.longitude}

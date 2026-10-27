@@ -26,7 +26,7 @@ export function ToiletMap({
                 height: "400px",
                 width: "100%",
             }}
-            className="rounded-lg border mt-8"
+            className="rounded-lg  ring-1 ring-blue-600 mt-8"
         >
             <TileLayer
                 attribution="&copy; OpenStreetMap contributors"

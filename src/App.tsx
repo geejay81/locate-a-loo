@@ -23,7 +23,10 @@ function App() {
 
     getLocation();
 
-    if (!coordinates) return;
+    if (!coordinates) {
+      console.log("Coordinates not available yet. Waiting for geolocation...");
+      return;
+    }
 
     setSearching(true);
 
@@ -33,9 +36,13 @@ function App() {
         coordinates.longitude
       );
 
-      setToilets(results);
+      const sortedResults = results.sort((a, b) => {
+        if (a.distance === undefined) return 1;
+        if (b.distance === undefined) return -1;
+        return a.distance - b.distance;
+      });
 
-      console.log(results);
+      setToilets(sortedResults);
     } catch (err) {
       console.error(err);
     } finally {
@@ -71,7 +78,7 @@ function App() {
               latitude={coordinates.latitude}
               longitude={coordinates.longitude}
               toilets={toilets} />
-            <div className="mt-6 space-y-4">
+            <div className="mt-6 grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-3">
               {toilets.map((toilet) => (
                 <ToiletCard
                   key={toilet.id}

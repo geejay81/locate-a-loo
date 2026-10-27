@@ -6,6 +6,7 @@ import type { Toilet } from "@/types/toilet";
 import { ToiletMap } from "./components/ToiletMap";
 import { HeroSection } from "./components/HeroSection";
 import { Spinner } from "./components/ui/spinner";
+import Footer from "./components/Footer";
 
 const pageTitle = "Locate a Loo";
 
@@ -90,6 +91,7 @@ function App() {
           </div>
         )}
       </div>
+      <Footer />
     </div>
   );
 }
